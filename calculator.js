@@ -1,24 +1,81 @@
 const display = document.querySelector('#display');
-const numbers = document.querySelectorAll('.face');
+const numpad = document.querySelectorAll('.numpad');
 const operators = document.querySelectorAll('.operator');
 const clear = document.querySelector('#clear');
 const del = document.querySelector('#del');
 const negToggle = document.querySelector('#negative-toggle');
 const decimal = document.querySelector('#decimal');
-// const add = document.querySelector('#add');
-// const subtract = document.querySelector('#subtract');
-// const multiply = document.querySelector('#multiply');
-// const divide = document.querySelector('#divide');
-// const equal = document.querySelector('#equal');
-// const one = document.querySelector('#one');
-// const two = document.querySelector('#two');
-// const three = document.querySelector('#three');
-// const four = document.querySelector('#four');
-// const five = document.querySelector('#five');
-// const six = document.querySelector('#six');
-// const seven = document.querySelector('#seven');
-// const eight = document.querySelector('#eight');
-// const nine = document.querySelector('#nine');
+const divide = document.querySelector('#divide');
+const multiply = document.querySelector('#multiply');
+const subtract = document.querySelector('#subtract');
+const add = document.querySelector('#add');
+let operandOne = '';
+let operandTwo = '';
+let operator = '';
+let displayValue = '';
+
+
+numpad.forEach(function(item) {
+    item.addEventListener('click', function(e) {    
+        displayValue += e.target.textContent;
+        display.textContent = displayValue
+        if(operator === ''){
+        operandOne += e.target.textContent;
+        console.log(`operand one first pass is ${operandOne}`);
+    } else if (operandOne !== '' || operator === '') {
+        operandTwo += e.target.textContent;
+        console.log(`operand one is ${operandOne} operand two is ${operandTwo}`);
+    }
+    if(displayValue.includes('.')) document.getElementById('decimal').disabled = true;
+    if(!displayValue.includes('.')) document.getElementById('decimal').disabled = false;
+    })
+})
+
+operators.forEach(function(item) {
+    item.addEventListener('click', function(e) {
+        if(operandOne === '') return;
+        operator = e.target.textContent;
+        operandTwo = '';
+        displayValue = '';
+        // if(display.text === operandTwo) {
+        //     operandOne = operate(operator, operandOne, operandTwo);
+        //     display.textContent = operandOne;
+        // }
+        // if(operandOne !== '' && operandTwo !== '') console.log(`the function says ${operate(operator, operandOne, operandTwo)}`);
+
+    })
+})
+
+
+equal.addEventListener('click', function(e) {
+    if(operandOne === '' || operandTwo === '') return;
+    operandOne = operate(operator, operandOne, operandTwo);
+    display.textContent = operandOne;
+    console.log(`hi im ${operandOne} and im ${operator} and im${operandTwo}`);
+})
+
+//quasi-functional delete mechanic 
+del.addEventListener('click', function(){
+    // display.textContent = displayvalue;
+    if(display.textContent === operandOne){
+        operandOne = operandOne.slice(0, -1);
+        display.textContent = operandOne;
+    } else if(display.textContent === operandTwo) {
+        operandTwo = operandTwo.slice(0, -1);
+        display.textContent = operandTwo;
+    }
+})
+
+//restores everything to default
+function erase(){
+    display.textContent = '';
+    displayValue = '';
+    operandOne = '';
+    operandTwo = '';
+    operator = '';
+}
+
+clear.addEventListener('click', erase);
 
 
 function addition(num1, num2){
@@ -37,68 +94,11 @@ function division(num1, num2){
     return num1 / num2;
 }
 
-function operate(operator, num1, num2){
-    if(operator === '+') return addition(num1, num2);
-    if(operator === '-') return subtraction(num1, num2);
-    if(operator === '*') return multiplication(num1, num2);
-    if(operator === '/') return division(num1, num2);
+function operate(operation, num1, num2){
+    num1 = Number(num1);
+    num2 = Number(num2);
+    if(operation === '+') return addition(num1, num2);
+    if(operation === '-') return subtraction(num1, num2);
+    if(operation === '*') return multiplication(num1, num2);
+    if(operation === '/') return division(num1, num2);
 }
-
-let dot = false;
-
-//the number string for the display
-let number = '';
-
-//currently adds numbers to the display
-numbers.forEach(function(item) {
-    item.addEventListener('click', function(e) {    
-        number += e.target.textContent;
-        display.textContent = number;
-  });
-})
-
-operators.forEach(function(item) {
-    item.addEventListener('click', function(e) {
-        number += e.target.textContent;
-        display.textContent = number;
-    })
-})
-
-//the following two lines appear completely useless, for now
-// if(dot) document.getElementById('decimal').disabled = true;
-// if(!dot) document.getElementById('decimal').disabled = false;
-
-// dot = false; must also come from the operators
-
-decimal.addEventListener('click', function(e) {
-    if(!dot){
-    number += e.target.textContent;
-    display.textContent = number;
-    }
-})
-
-function decimalStop(){
-    if(number.includes('.')){
-    dot = true;
-    }else if(!number.includes('.')){
-        dot = false;
-    }
-}
-
-decimal.addEventListener('click', decimalStop);
-
-//deletes the latest input
-del.addEventListener('click', function(){
-    number = number.slice(0, -1);
-    display.textContent = number;
-})
-console.log(number);
-//clears the display and returns toggles to default
-function erase(){
-    display.innerHTML = '';
-    number = ''
-    dot = false;
-    if(!dot) document.getElementById('decimal').disabled = false;
-}
-
-clear.addEventListener('click', erase);
