@@ -13,19 +13,26 @@ let operandOne = '';
 let operandTwo = '';
 let operator = '';
 let displayValue = '';
+let evaluated = false;
 
 
 numpad.forEach(function(item) {
     item.addEventListener('click', function(e) {    
         displayValue += e.target.textContent;
-        display.textContent = displayValue
-        if(operator === ''){
+        display.textContent = displayValue;
+    if(operator === ''){
         operandOne += e.target.textContent;
         console.log(`operand one first pass is ${operandOne}`);
+    } else if (evaluated === true){
+        operandTwo = '';
+        operandOne = '';
+        operandOne = e.target.textContent;
+        console.log('this condition is firing');
     } else if (operandOne !== '' || operator === '') {
         operandTwo += e.target.textContent;
         console.log(`operand one is ${operandOne} operand two is ${operandTwo}`);
-    }
+    } 
+    console.log(`displayvalue is ${displayValue}`);
     if(displayValue.includes('.')) document.getElementById('decimal').disabled = true;
     if(!displayValue.includes('.')) document.getElementById('decimal').disabled = false;
     })
@@ -37,12 +44,8 @@ operators.forEach(function(item) {
         operator = e.target.textContent;
         operandTwo = '';
         displayValue = '';
-        // if(display.text === operandTwo) {
-        //     operandOne = operate(operator, operandOne, operandTwo);
-        //     display.textContent = operandOne;
-        // }
-        // if(operandOne !== '' && operandTwo !== '') console.log(`the function says ${operate(operator, operandOne, operandTwo)}`);
-
+        evaluated = false;
+        console.log(`displayvalue is ${displayValue}`);
     })
 })
 
@@ -51,7 +54,9 @@ equal.addEventListener('click', function(e) {
     if(operandOne === '' || operandTwo === '') return;
     operandOne = operate(operator, operandOne, operandTwo);
     display.textContent = operandOne;
+    displayValue = '';
     console.log(`hi im ${operandOne} and im ${operator} and im${operandTwo}`);
+    console.log(`displayvalue is ${displayValue}  operator is ${operator}`);
 })
 
 //quasi-functional delete mechanic 
@@ -97,6 +102,7 @@ function division(num1, num2){
 function operate(operation, num1, num2){
     num1 = Number(num1);
     num2 = Number(num2);
+    evaluated = true;
     if(operation === '+') return addition(num1, num2);
     if(operation === '-') return subtraction(num1, num2);
     if(operation === '*') return multiplication(num1, num2);
