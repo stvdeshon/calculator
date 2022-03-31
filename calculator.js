@@ -110,7 +110,7 @@ function operate(operation, num1, num2){
     evaluated = true;
     if(operation === '+') return addition(num1, num2);
     if(operation === '-') return subtraction(num1, num2);
-    if(operation === '*') return multiplication(num1, num2);
-    if(operation === '/' && num2 === 0) return 'ERROR';
-    if(operation === '/') return division(num1, num2);
+    if(operation === '×') return multiplication(num1, num2);
+    if(operation === '÷' && num2 === 0) return 'ERROR';
+    if(operation === '÷') return division(num1, num2);
 }
