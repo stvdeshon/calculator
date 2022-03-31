@@ -34,7 +34,6 @@ numpad.forEach(function(item) {
     } 
     console.log(`displayvalue is ${displayValue}`);
     if(displayValue.includes('.')) document.getElementById('decimal').disabled = true;
-    if(!displayValue.includes('.')) document.getElementById('decimal').disabled = false;
     })
 })
 
@@ -46,6 +45,10 @@ operators.forEach(function(item) {
         displayValue = '';
         evaluated = false;
         console.log(`displayvalue is ${displayValue}`);
+        if(!displayValue.includes('.') && operator !== ''){
+            document.getElementById('decimal').disabled = false;
+            console.log('decimal condition is working at all')
+       }
     })
 })
 
@@ -78,6 +81,8 @@ function erase(){
     operandOne = '';
     operandTwo = '';
     operator = '';
+    evaluated = false;
+    document.getElementById('decimal').disabled = false;
 }
 
 clear.addEventListener('click', erase);
