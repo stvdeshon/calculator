@@ -12,32 +12,28 @@ const add = document.querySelector('#add');
 let operandOne = '';
 let operandTwo = '';
 let operator = '';
-let displayValue = '';
+let input = '';
 
-/* this boolean allows clean user input if they use the numpad after
-calculation by preventing them from adding to the previous result. 
-This is to give it the functionality one finds in actual calculators.*/
+/* The following boolean allows clean user input if they use the numpad after
+calculation by preventing them from appending their new input to the previous result. */
 let evaluated = false;
 
 
 numpad.forEach(function(item) {
     item.addEventListener('click', function(e) {    
-        displayValue += e.target.textContent;
-        display.textContent = displayValue;
+        input += e.target.textContent;
+        display.textContent = input;
     if(operator === ''){
         operandOne += e.target.textContent;
-        console.log(`operand one first pass is ${operandOne}`);
     } else if (evaluated === true){
         operandTwo = '';
         operandOne = '';
         operandOne = e.target.textContent;
-        console.log('this condition is firing');
     } else if (operandOne !== '' || operator === '') {
         operandTwo += e.target.textContent;
-        console.log(`operand one is ${operandOne} operand two is ${operandTwo}`);
     } 
     //toggles decimal input
-    if(displayValue.includes('.')) document.getElementById('decimal').disabled = true;
+    if(input.includes('.')) document.getElementById('decimal').disabled = true;
     })
 })
 
@@ -49,14 +45,13 @@ operators.forEach(function(item) {
             operandOne = operate(operator, operandOne, operandTwo);
             operator = e.target.textContent;
             display.textContent = operandOne;
-    
         }
         operator = e.target.textContent;
         operandTwo = '';
-        displayValue = '';
+        input = '';
         evaluated = false;
         //toggles decimal input
-        if(!displayValue.includes('.') && operator !== ''){
+        if(!input.includes('.') && operator !== ''){
             document.getElementById('decimal').disabled = false;
        }
     })
@@ -67,24 +62,25 @@ equal.addEventListener('click', function(e) {
     if(operandOne === '' || operandTwo === '') return;
     operandOne = operate(operator, operandOne, operandTwo);
     display.textContent = operandOne;
-    displayValue = '';
+    input = '';
 })
 
-//quasi-functional delete mechanic 
 del.addEventListener('click', function(){
-    // display.textContent = displayvalue;
     if(display.textContent === operandOne){
         operandOne = operandOne.slice(0, -1);
+        input = operandOne;
         display.textContent = operandOne;
     } else if(display.textContent === operandTwo) {
         operandTwo = operandTwo.slice(0, -1);
+        input = operandTwo;
         display.textContent = operandTwo;
     }
+    if(!input.includes('.')) document.getElementById('decimal').disabled = false;
 })
 
 function erase(){
     display.textContent = '';
-    displayValue = '';
+    input = '';
     operandOne = '';
     operandTwo = '';
     operator = '';
@@ -93,7 +89,6 @@ function erase(){
 }
 
 clear.addEventListener('click', erase);
-
 
 function addition(num1, num2){
     return num1 + num2;
