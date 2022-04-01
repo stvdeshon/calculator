@@ -13,6 +13,10 @@ let operandOne = '';
 let operandTwo = '';
 let operator = '';
 let displayValue = '';
+
+/* this boolean allows clean user input if they use the numpad after
+calculation by preventing them from adding to the previous result. 
+This is to give it the functionality one finds in actual calculators.*/
 let evaluated = false;
 
 
@@ -32,7 +36,7 @@ numpad.forEach(function(item) {
         operandTwo += e.target.textContent;
         console.log(`operand one is ${operandOne} operand two is ${operandTwo}`);
     } 
-    console.log(`displayvalue is ${displayValue}`);
+    //toggles decimal input
     if(displayValue.includes('.')) document.getElementById('decimal').disabled = true;
     })
 })
@@ -40,14 +44,20 @@ numpad.forEach(function(item) {
 operators.forEach(function(item) {
     item.addEventListener('click', function(e) {
         if(operandOne === '') return;
+        //the following allows continuous input and calculation via operators
+        if(operandOne !== '' && operandTwo !== '') {
+            operandOne = operate(operator, operandOne, operandTwo);
+            operator = e.target.textContent;
+            display.textContent = operandOne;
+    
+        }
         operator = e.target.textContent;
         operandTwo = '';
         displayValue = '';
         evaluated = false;
-        console.log(`displayvalue is ${displayValue}`);
+        //toggles decimal input
         if(!displayValue.includes('.') && operator !== ''){
             document.getElementById('decimal').disabled = false;
-            console.log('decimal condition is working at all')
        }
     })
 })
@@ -58,8 +68,6 @@ equal.addEventListener('click', function(e) {
     operandOne = operate(operator, operandOne, operandTwo);
     display.textContent = operandOne;
     displayValue = '';
-    console.log(`hi im ${operandOne} and im ${operator} and im${operandTwo}`);
-    console.log(`displayvalue is ${displayValue}  operator is ${operator}`);
 })
 
 //quasi-functional delete mechanic 
@@ -74,7 +82,6 @@ del.addEventListener('click', function(){
     }
 })
 
-//restores everything to default
 function erase(){
     display.textContent = '';
     displayValue = '';
