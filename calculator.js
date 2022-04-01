@@ -41,10 +41,11 @@ operators.forEach(function(item) {
     item.addEventListener('click', function(e) {
         if(operandOne === '') return;
         //the following allows continuous input and calculation via operators
-        if(operandOne !== '' && operandTwo !== '') {
+        if(operandOne !== '' && operandTwo !== '' && evaluated === false) {
             operandOne = operate(operator, operandOne, operandTwo);
             operator = e.target.textContent;
             display.textContent = operandOne;
+            console.log('misfire here')
         }
         operator = e.target.textContent;
         operandTwo = '';
