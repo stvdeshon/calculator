@@ -91,19 +91,23 @@ function erase(){
 clear.addEventListener('click', erase);
 
 function addition(num1, num2){
-    return num1 + num2;
+    const round = num1 + num2;
+    return Math.round((round + Number.EPSILON) * 100) / 100;
 }
 
 function subtraction(num1, num2){
-    return num1 - num2;
+    const round = num1 - num2;
+    return Math.round((round + Number.EPSILON) * 100) / 100;
 }
 
 function multiplication(num1, num2){
-    return num1 * num2;
+    const round = num1 * num2;
+    return Math.round((round + Number.EPSILON) * 100) / 100;
 }
 
 function division(num1, num2){
-    return num1 / num2;
+    const round = num1 / num2;
+    return Math.round((round + Number.EPSILON) * 100) / 100;
 }
 
 function operate(operation, num1, num2){
