@@ -79,6 +79,28 @@ del.addEventListener('click', function(){
     if(!input.includes('.')) document.getElementById('decimal').disabled = false;
 })
 
+//Toggles the +/- button
+negToggle.addEventListener('click', function(e) {
+    const neg = '-';
+    if(display.textContent === operandOne && !operandOne.includes('-')){
+        operandOne = neg.concat(operandOne);
+        input = operandOne;
+        display.textContent = operandOne;
+    } else if(display.textContent === operandOne && operandOne.includes('-')){
+        operandOne = operandOne.substring(1);
+        input = operandOne;
+        display.textContent = operandOne;
+    } else if(display.textContent === operandTwo && !operandTwo.includes('-')) {
+        operandTwo = neg.concat(operandTwo);
+        input = operandTwo;
+        display.textContent = operandTwo;
+    } else if(display.textContent === operandTwo && operandTwo.includes('-')) {
+        operandTwo = operandTwo.substring(1);
+        input = operandTwo;
+        display.textContent = operandTwo;
+    }
+})
+
 function erase(){
     display.textContent = '';
     input = '';
