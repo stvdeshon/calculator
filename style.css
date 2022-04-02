@@ -24,18 +24,35 @@ main {
     display: grid;
     height: 500px;
     width: 400px;
-    border: solid black 1px;
+    background-color: firebrick;
+    border: 12px solid firebrick;
+    border-radius: 4px;
+}
+
+#screen {
+    display: grid;
+    grid-column: span 4;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: rgb(202, 192, 178);
+    text-align: right;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+#history{
+    min-height: 40px;
+    font-size: 20px;
+    grid-row: 1/1;
 }
 
 #display {
-    border: 1px solid black;
-    border-radius: 4px;
-    grid-column: span 4;
-    background-color: burlywood;
-    padding: 0;
-    max-height: 64px;
-    font-size: 40px;
-    text-align: end;
+    grid-row: 1fr;
+    min-height: 25px;
+    max-height: 25px;
+    font-size: 3em;
+    padding: 0 5px;
+    margin: 0;
 }
 
 
